@@ -4,6 +4,7 @@ import Navbar from './components/Navbar/Navbar';
 import HomePage from './components/HomePage/HomePage';
 import CourseList from './components/CourseList/CourseList';
 import MyCourses from './components/MyCourses/MyCourses';
+import Certificates from './components/Certificates/Certificates';
 import './App.css';
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/explore" element={<CourseList />} />
               <Route path="/my-courses" element={<MyCourses />} />
+              <Route path="/certificates" element={<Certificates />} />
             </Routes>
           </main>
         </div>

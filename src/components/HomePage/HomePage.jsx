@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import CourseCard from '../CourseCard/CourseCard';
 import './HomePage.css';
+import './HomePageResponsive.css';
 
 const HomePage = () => {
   const [featuredCourses, setFeaturedCourses] = useState([]);
@@ -198,6 +199,7 @@ const HomePage = () => {
             {featuredCourses.map(course => (
               <CourseCard
                 key={course.id}
+                id={course.id}
                 title={course.title}
                 description={course.description}
                 price={course.price}
