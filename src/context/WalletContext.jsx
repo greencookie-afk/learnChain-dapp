@@ -3,11 +3,26 @@ import { ethers } from 'ethers';
 
 export const WalletContext = createContext();
 
+// Mock LRN token contract address - this would be the actual deployed token address
+const LRN_TOKEN_ADDRESS = "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063";
+
+// Simplified ERC20 ABI for our token
+const LRN_TOKEN_ABI = [
+  "function balanceOf(address owner) view returns (uint256)",
+  "function decimals() view returns (uint8)",
+  "function symbol() view returns (string)",
+  "function transfer(address to, uint amount) returns (bool)",
+  "function allowance(address owner, address spender) view returns (uint256)",
+  "function approve(address spender, uint256 amount) returns (bool)"
+];
+
 export const WalletProvider = ({ children }) => {
   const [account, setAccount] = useState(null);
   const [balance, setBalance] = useState(null);
+  const [lrnBalance, setLrnBalance] = useState(null);
   const [provider, setProvider] = useState(null);
   const [signer, setSigner] = useState(null);
+  const [lrnToken, setLrnToken] = useState(null);
   const [isConnecting, setIsConnecting] = useState(false);
   const [error, setError] = useState(null);
 
@@ -25,6 +40,17 @@ export const WalletProvider = ({ children }) => {
           setSigner(ethersSigner);
           setAccount(address);
           setBalance(ethers.formatEther(ethBalance));
+          
+          // Set up LRN token contract
+          const tokenContract = new ethers.Contract(
+            LRN_TOKEN_ADDRESS,
+            LRN_TOKEN_ABI,
+            ethersProvider
+          );
+          setLrnToken(tokenContract);
+          
+          // Get LRN token balance
+          updateLrnBalance(address, tokenContract);
         } catch (err) {
           console.error("Error checking connection:", err);
           setError("Failed to connect to previously connected wallet");
@@ -40,12 +66,16 @@ export const WalletProvider = ({ children }) => {
         // User disconnected wallet
         setAccount(null);
         setBalance(null);
+        setLrnBalance(null);
         setSigner(null);
       } else {
         // Account changed
         setAccount(accounts[0]);
         if (provider) {
           updateBalance(accounts[0]);
+          if (lrnToken) {
+            updateLrnBalance(accounts[0], lrnToken);
+          }
         }
       }
     };
@@ -67,6 +97,25 @@ export const WalletProvider = ({ children }) => {
       }
     };
   }, []);
+
+  const updateLrnBalance = async (address, tokenContract) => {
+    try {
+      if (tokenContract) {
+        // In a real app, this would get the actual token balance
+        // For now using mock data since we don't have a real token contract
+        const mockLrnBalance = "100.0"; // Mock 100 LRN tokens
+        setLrnBalance(mockLrnBalance);
+        
+        // Uncomment this when you have a real token contract:
+        // const rawBalance = await tokenContract.balanceOf(address);
+        // const decimals = await tokenContract.decimals();
+        // const formattedBalance = ethers.formatUnits(rawBalance, decimals);
+        // setLrnBalance(formattedBalance);
+      }
+    } catch (error) {
+      console.error("Error fetching LRN balance:", error);
+    }
+  };
 
   const updateBalance = async (address) => {
     try {
@@ -100,10 +149,22 @@ export const WalletProvider = ({ children }) => {
       const address = accounts[0];
       const ethBalance = await ethersProvider.getBalance(address);
       
+      // Set up LRN token contract
+      const tokenContract = new ethers.Contract(
+        LRN_TOKEN_ADDRESS,
+        LRN_TOKEN_ABI,
+        ethersProvider
+      );
+      setLrnToken(tokenContract);
+      
       setProvider(ethersProvider);
       setSigner(ethersSigner);
       setAccount(address);
       setBalance(ethers.formatEther(ethBalance));
+      
+      // Get LRN token balance
+      updateLrnBalance(address, tokenContract);
+      
       setIsConnecting(false);
     } catch (err) {
       console.error("Error connecting wallet:", err);
@@ -115,22 +176,27 @@ export const WalletProvider = ({ children }) => {
   const disconnectWallet = () => {
     setAccount(null);
     setBalance(null);
+    setLrnBalance(null);
     setSigner(null);
     setProvider(null);
+    setLrnToken(null);
   };
 
   return (
     <WalletContext.Provider 
       value={{ 
         account, 
-        balance, 
+        balance,
+        lrnBalance,
         provider, 
-        signer, 
+        signer,
+        lrnToken,
         isConnecting, 
         error,
         connectWallet, 
         disconnectWallet,
-        updateBalance 
+        updateBalance,
+        updateLrnBalance
       }}
     >
       {children}

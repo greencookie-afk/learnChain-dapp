@@ -1,40 +1,40 @@
 /* Base styles for dark mode */
 :root {
-  /* Dark theme color scheme inspired by augmentedcode website but in dark mode */
-  --bg-primary: #121212;
-  --bg-secondary: #1e1e1e;
-  --bg-tertiary: #252525;
-  --bg-card: #1a1a1a;
-  --bg-hover: #2a2a2a;
+  /* Dark theme color scheme with full black background and subtle blue accents */
+  --bg-primary: #050505;
+  --bg-secondary: #0a0a0a;
+  --bg-tertiary: #101010;
+  --bg-card: #0f0f0f;
+  --bg-hover: #151515;
   
   --text-primary: #f2f2f2;
   --text-secondary: #aaaaaa;
   --text-tertiary: #777777;
   
-  --primary-color: #00b8d4;
-  --primary-color-hover: #00e5ff;
-  --primary-color-light: rgba(0, 184, 212, 0.1);
+  --primary-color: #092ec4;
+  --primary-color-hover: #0b3da0;
+  --primary-color-light: rgba(13, 75, 110, 0.1);
   
-  --secondary-color: #1de9b6;
-  --accent-primary: #00b8d4;
-  --accent-secondary: #1de9b6;
+  --secondary-color: #145a7c;
+  --accent-primary: #0d4b6e;
+  --accent-secondary: #145a7c;
   
-  --success-color: #4caf50;
+  --success-color: #2e7d32;
   --warning-color: #ff9800;
-  --danger-color: #f44336;
+  --danger-color: #c62828;
   
-  --border-color: rgba(255, 255, 255, 0.1);
+  --border-color: rgba(255, 255, 255, 0.05);
   --border-radius: 12px;
-  --shadow-small: 0 4px 6px rgba(0, 0, 0, 0.2);
-  --shadow-medium: 0 6px 12px rgba(0, 0, 0, 0.25);
-  --shadow-large: 0 10px 20px rgba(0, 0, 0, 0.3);
+  --shadow-small: 0 4px 6px rgba(0, 0, 0, 0.3);
+  --shadow-medium: 0 6px 12px rgba(0, 0, 0, 0.35);
+  --shadow-large: 0 10px 20px rgba(0, 0, 0, 0.4);
   
   --transition-speed: 0.3s;
   --transition-ease: cubic-bezier(0.4, 0, 0.2, 1);
   
   /* Gradients */
   --gradient-primary: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-  --gradient-dark: linear-gradient(135deg, #121212 0%, #1e1e1e 100%);
+  --gradient-dark: linear-gradient(135deg, #050505 0%, #0a0a0a 100%);
 }
 
 * {

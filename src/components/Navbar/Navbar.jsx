@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useWallet } from '../../context/WalletContext';
 import WalletConnect from '../WalletConnect/WalletConnect';
 import './Navbar.css';
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
+  const { account } = useWallet();
   
   const isActive = (path) => {
-    return location.pathname === path;
+    return location.pathname === path || location.pathname.startsWith(path + '/');
   };
   
   const toggleMenu = () => {
@@ -37,6 +39,11 @@ const Navbar = () => {
         <Link to="/explore" className={`nav-link ${isActive('/explore') ? 'active' : ''}`}>Explore</Link>
         <Link to="/my-courses" className={`nav-link ${isActive('/my-courses') ? 'active' : ''}`}>My Courses</Link>
         <Link to="/certificates" className={`nav-link ${isActive('/certificates') ? 'active' : ''}`}>Certificates</Link>
+        {account && (
+          <Link to="/educator/dashboard" className={`nav-link ${isActive('/educator') ? 'active' : ''}`}>
+            Educator
+          </Link>
+        )}
         <WalletConnect />
       </nav>
     </header>

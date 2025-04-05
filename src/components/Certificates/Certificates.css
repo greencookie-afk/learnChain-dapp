@@ -14,7 +14,7 @@
   font-weight: 700;
   margin-bottom: 0.75rem;
   color: #fff;
-  background: linear-gradient(90deg, #6a3de8, #b35bff);
+  background: linear-gradient(90deg, #0d4b6e, #145a7c);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
@@ -55,7 +55,7 @@
   width: 80px;
   height: 80px;
   margin-bottom: 1.5rem;
-  color: #6a3de8;
+  color: #0d4b6e;
 }
 
 .no-wallet-icon svg,
@@ -82,26 +82,26 @@
 .browse-courses-btn {
   display: inline-block;
   padding: 0.75rem 1.5rem;
-  background: linear-gradient(to right, #6a3de8, #b35bff);
+  background: linear-gradient(to right, #0d4b6e, #145a7c);
   color: white;
   font-weight: 600;
   border-radius: 8px;
   text-decoration: none;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 4px 12px rgba(106, 61, 232, 0.2);
+  box-shadow: 0 4px 12px rgba(13, 75, 110, 0.2);
 }
 
 .browse-courses-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(106, 61, 232, 0.3);
+  box-shadow: 0 6px 16px rgba(13, 75, 110, 0.3);
 }
 
 .loading-spinner {
   width: 48px;
   height: 48px;
-  border: 5px solid rgba(106, 61, 232, 0.1);
+  border: 5px solid rgba(13, 75, 110, 0.1);
   border-radius: 50%;
-  border-top-color: #6a3de8;
+  border-top-color: #0d4b6e;
   margin-bottom: 1.5rem;
   animation: spin 1s linear infinite;
 }

@@ -102,11 +102,11 @@ const HomePage = () => {
 
   return (
     <div className="home-container">
-      {/* Hero Section */}
-      <section className="hero-section">
-        <div className="hero-content">
-          <h1 className="hero-title">Welcome to LearnChain</h1>
-          <p className="hero-subtitle">
+      {/* Hero Section - Centered text */}
+      <section className="hero-text-container">
+        <div className="hero-text-content">
+          <h1 className="hero-text-title">Blockchain Learning</h1>
+          <p className="hero-text-subtitle">
             Master blockchain development through interactive courses and hands-on projects. 
             Start your journey into Web3 and decentralized technologies today.
           </p>
@@ -117,11 +117,6 @@ const HomePage = () => {
             Explore Courses
           </Link>
         </div>
-        <img 
-          src="https://placehold.co/800x600/252525/5e35b1?text=Blockchain+Learning" 
-          alt="Blockchain learning illustration" 
-          className="hero-image"
-        />
       </section>
 
       {/* Stats Section */}

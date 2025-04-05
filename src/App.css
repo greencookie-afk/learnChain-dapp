@@ -5,8 +5,8 @@
   flex-direction: column;
   color: var(--text-primary);
   background-image: 
-    radial-gradient(circle at 25% 5%, rgba(106, 61, 232, 0.05) 0%, transparent 20%),
-    radial-gradient(circle at 75% 80%, rgba(179, 91, 255, 0.05) 0%, transparent 20%);
+    radial-gradient(circle at 25% 5%, rgba(13, 75, 110, 0.08) 0%, transparent 25%),
+    radial-gradient(circle at 75% 80%, rgba(20, 90, 124, 0.08) 0%, transparent 25%);
 }
 
 .main-content {
@@ -44,7 +44,7 @@
 .card:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-medium);
-  border-color: rgba(106, 61, 232, 0.2);
+  border-color: rgba(13, 75, 110, 0.2);
 }
 
 /* Section Titles */
@@ -104,23 +104,23 @@
 .btn-primary {
   background: var(--gradient-primary);
   color: white;
-  box-shadow: 0 4px 10px rgba(106, 61, 232, 0.25);
+  box-shadow: 0 4px 10px rgba(13, 75, 110, 0.25);
 }
 
 .btn-primary:hover {
-  box-shadow: 0 6px 14px rgba(106, 61, 232, 0.4);
+  box-shadow: 0 6px 14px rgba(13, 75, 110, 0.4);
   transform: translateY(-2px);
 }
 
 .btn-secondary {
-  background-color: rgba(106, 61, 232, 0.1);
+  background-color: rgba(13, 75, 110, 0.1);
   color: var(--primary-color);
-  border: 1px solid rgba(106, 61, 232, 0.2);
+  border: 1px solid rgba(13, 75, 110, 0.2);
 }
 
 .btn-secondary:hover {
-  background-color: rgba(106, 61, 232, 0.15);
-  border-color: rgba(106, 61, 232, 0.3);
+  background-color: rgba(13, 75, 110, 0.15);
+  border-color: rgba(13, 75, 110, 0.3);
 }
 
 .btn-icon {

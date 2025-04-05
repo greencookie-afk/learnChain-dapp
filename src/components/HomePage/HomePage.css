@@ -4,44 +4,42 @@
   gap: 2rem;
 }
 
-.hero-section {
-  padding: 2.5rem;
-  background-color: var(--bg-secondary);
+/* Hero Text Section - Centered Design */
+.hero-text-container {
+  padding: 4rem 2rem;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-primary);
   border-radius: 12px;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-small);
 }
 
-.hero-content {
-  max-width: 60%;
-  position: relative;
-  z-index: 2;
+.hero-text-content {
+  max-width: 720px;
 }
 
-.hero-title {
-  font-size: 2.5rem;
+.hero-text-title {
+  font-size: 3.5rem;
   font-weight: 700;
-  margin-bottom: 1rem;
-  background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  margin-bottom: 1.5rem;
+  color: var(--primary-color);
 }
 
-.hero-subtitle {
-  font-size: 1.2rem;
+.hero-text-subtitle {
+  font-size: 1.3rem;
   color: var(--text-secondary);
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
   line-height: 1.6;
 }
 
 .hero-cta {
-  background-color: var(--accent-primary);
+  background-color: var(--primary-color);
   color: white;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  font-weight: 500;
+  padding: 0.85rem 2rem;
+  border-radius: 8px;
+  font-weight: 600;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -49,7 +47,7 @@
 }
 
 .hero-cta:hover {
-  background-color: var(--accent-secondary);
+  background-color: var(--primary-color-hover);
   transform: translateY(-2px);
 }
 
@@ -75,7 +73,7 @@
   background-color: var(--bg-secondary);
   padding: 1.5rem;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-small);
   display: flex;
   flex-direction: column;
   border: 1px solid var(--border-color);
@@ -91,10 +89,10 @@
 .stat-icon {
   width: 36px;
   height: 36px;
-  background-color: rgba(126, 87, 194, 0.1);
+  background-color: var(--primary-color-light);
   padding: 8px;
   border-radius: 8px;
-  color: var(--accent-primary);
+  color: var(--primary-color);
 }
 
 .stat-title {
@@ -129,7 +127,7 @@
 }
 
 .view-all {
-  color: var(--accent-primary);
+  color: var(--primary-color);
   font-size: 0.9rem;
   display: flex;
   align-items: center;
@@ -138,7 +136,7 @@
 }
 
 .view-all:hover {
-  opacity: 0.8;
+  color: var(--primary-color-hover);
 }
 
 .featured-courses {
@@ -151,7 +149,7 @@
   background-color: var(--bg-secondary);
   padding: 1.5rem;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-small);
   border: 1px solid var(--border-color);
 }
 
@@ -192,7 +190,7 @@
 .step-icon {
   width: 36px;
   height: 36px;
-  background-color: var(--accent-primary);
+  background-color: var(--primary-color);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -201,6 +199,7 @@
   font-weight: 600;
   position: relative;
   z-index: 2;
+  box-shadow: var(--shadow-small);
 }
 
 .step-line {
@@ -212,10 +211,11 @@
 
 .step-content {
   flex: 1;
-  background-color: var(--bg-tertiary);
+  background-color: var(--bg-secondary);
   padding: 1rem;
   border-radius: 8px;
   border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-small);
 }
 
 .step-title {

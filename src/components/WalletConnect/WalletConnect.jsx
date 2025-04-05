@@ -4,7 +4,7 @@ import './WalletConnect.css';
 const WalletConnect = () => {
   const { 
     account, 
-    balance, 
+    lrnBalance, 
     isConnecting, 
     error,
     connectWallet,
@@ -23,7 +23,7 @@ const WalletConnect = () => {
               <path d="M16 12C16 10.8954 16.8954 10 18 10H22V14H18C16.8954 14 16 13.1046 16 12Z" stroke="currentColor" strokeWidth="2" />
             </svg>
             {account.slice(0, 6)}...{account.slice(-4)} 
-            {balance && <span className="balance">({Number(balance).toFixed(4)} LRN)</span>}
+            {lrnBalance && <span className="balance">({Number(lrnBalance).toFixed(2)} LRN)</span>}
           </span>
           <button 
             className="disconnect-button"

@@ -10,7 +10,7 @@
 }
 
 .account-display {
-  background-color: rgba(106, 61, 232, 0.1);
+  background-color: rgba(13, 75, 110, 0.1);
   color: var(--primary-color);
   padding: 0.5rem 1rem;
   border-radius: 20px;
@@ -19,14 +19,14 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  border: 1px solid rgba(106, 61, 232, 0.2);
+  border: 1px solid rgba(13, 75, 110, 0.2);
   font-family: monospace;
   transition: all 0.2s var(--transition-ease);
 }
 
 .account-display:hover {
-  background-color: rgba(106, 61, 232, 0.15);
-  border-color: rgba(106, 61, 232, 0.3);
+  background-color: rgba(13, 75, 110, 0.15);
+  border-color: rgba(13, 75, 110, 0.3);
 }
 
 .balance {
@@ -47,12 +47,12 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  box-shadow: 0 4px 10px rgba(106, 61, 232, 0.2);
+  box-shadow: 0 4px 10px rgba(13, 75, 110, 0.2);
 }
 
 .connect-wallet-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(106, 61, 232, 0.3);
+  box-shadow: 0 6px 14px rgba(13, 75, 110, 0.3);
 }
 
 .connect-wallet-button:disabled {
