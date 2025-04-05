@@ -1,0 +1,239 @@
+.certificate-card {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  height: 350px;
+  margin: 0 auto;
+  perspective: 1500px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.certificate-card:hover {
+  transform: translateY(-5px);
+}
+
+.certificate-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.certificate-card.flipped .certificate-card-inner {
+  transform: rotateY(180deg);
+}
+
+.certificate-front,
+.certificate-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.certificate-front {
+  background: linear-gradient(135deg, #121212 0%, #1e1e1e 100%);
+  color: white;
+  border: 1px solid #333;
+}
+
+.certificate-back {
+  background: linear-gradient(135deg, #1a1a1a 0%, #252525 100%);
+  color: white;
+  transform: rotateY(180deg);
+  border: 1px solid #333;
+}
+
+.certificate-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.certificate-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0;
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.certificate-badge {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.certificate-badge svg {
+  width: 100%;
+  height: 100%;
+  stroke: #6a3de8;
+}
+
+.certificate-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.15;
+  z-index: 0;
+}
+
+.certificate-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-grow: 1;
+  z-index: 1;
+  padding: 1rem 0;
+}
+
+.certificate-text {
+  font-size: 0.9rem;
+  color: #bbb;
+  margin: 0.5rem 0;
+}
+
+.certificate-recipient {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0.5rem 0;
+  color: #7e57c2;
+  background: linear-gradient(90deg, #6a3de8, #b35bff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.certificate-course {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0.5rem 0;
+  color: #fff;
+}
+
+.certificate-date {
+  font-size: 0.9rem;
+  color: #bbb;
+  margin: 0.5rem 0;
+}
+
+.certificate-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 1;
+}
+
+.certificate-token {
+  font-size: 0.8rem;
+  color: #999;
+  font-family: monospace;
+}
+
+.certificate-verification {
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+  color: #6a3de8;
+}
+
+.verified-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 0.5rem;
+  stroke: #6a3de8;
+}
+
+.details-title {
+  font-size: 1.4rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-label {
+  font-size: 0.8rem;
+  color: #999;
+  margin-bottom: 0.25rem;
+}
+
+.detail-value {
+  font-size: 0.9rem;
+  color: #fff;
+  font-weight: 500;
+}
+
+.certificate-actions {
+  display: flex;
+  justify-content: space-around;
+  margin-top: auto;
+  margin-bottom: 1rem;
+}
+
+.action-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: rgba(106, 61, 232, 0.1);
+  color: #6a3de8;
+  border: 1px solid rgba(106, 61, 232, 0.3);
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.action-button:hover {
+  background-color: rgba(106, 61, 232, 0.2);
+  border-color: rgba(106, 61, 232, 0.5);
+}
+
+.action-button svg {
+  width: 16px;
+  height: 16px;
+  stroke: #6a3de8;
+}
+
+.flip-prompt {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+  z-index: 1;
+} 

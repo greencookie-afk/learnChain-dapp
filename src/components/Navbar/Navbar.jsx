@@ -1,8 +1,20 @@
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import WalletConnect from '../WalletConnect/WalletConnect';
 import './Navbar.css';
 
 const Navbar = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const location = useLocation();
+  
+  const isActive = (path) => {
+    return location.pathname === path;
+  };
+  
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+  
   return (
     <header className="navbar">
       <h1 className="navbar-logo">
@@ -13,10 +25,18 @@ const Navbar = () => {
         </svg>
         <Link to="/">LearnChain</Link>
       </h1>
-      <nav className="navbar-nav">
-        <Link to="/" className="nav-link">Home</Link>
-        <Link to="/explore" className="nav-link">Explore</Link>
-        <Link to="/my-courses" className="nav-link">My Courses</Link>
+      
+      <button className="mobile-menu-toggle" onClick={toggleMenu}>
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      
+      <nav className={`navbar-nav ${menuOpen ? 'show' : ''}`}>
+        <Link to="/" className={`nav-link ${isActive('/') ? 'active' : ''}`}>Home</Link>
+        <Link to="/explore" className={`nav-link ${isActive('/explore') ? 'active' : ''}`}>Explore</Link>
+        <Link to="/my-courses" className={`nav-link ${isActive('/my-courses') ? 'active' : ''}`}>My Courses</Link>
+        <Link to="/certificates" className={`nav-link ${isActive('/certificates') ? 'active' : ''}`}>Certificates</Link>
         <WalletConnect />
       </nav>
     </header>
