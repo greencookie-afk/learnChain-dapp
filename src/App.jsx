@@ -1,35 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { ChakraProvider, Box, Heading, Flex, Spacer } from '@chakra-ui/react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { WalletProvider } from './context/WalletContext';
+import WalletConnect from './components/WalletConnect';
+import CourseList from './components/CourseList';
+import MyCourses from './components/MyCourses';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <ChakraProvider>
+      <WalletProvider>
+        <Router>
+          {/* Header */}
+          <Flex p={4} bg="gray.800" color="white" align="center">
+            <Heading size="md">
+              <Link to="/">LearnChain</Link>
+            </Heading>
+            <Spacer />
+            <Flex gap={4} align="center">
+              <Link to="/my-courses">My Courses</Link>
+              <WalletConnect />
+            </Flex>
+          </Flex>
+
+          {/* Main Content */}
+          <Box p={6}>
+            <Routes>
+              <Route path="/" element={<CourseList />} />
+              <Route path="/my-courses" element={<MyCourses />} />
+            </Routes>
+          </Box>
+        </Router>
+      </WalletProvider>
+    </ChakraProvider>
+  );
 }
 
-export default App
+export default App;
