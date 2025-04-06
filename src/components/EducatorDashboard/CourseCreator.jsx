@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useWallet } from '../../context/WalletContext';
+import { ethers } from 'ethers';
+import courseService from '../../services/courseService';
 import './CourseCreator.css';
 
 const CourseCreator = () => {
@@ -8,7 +10,7 @@ const CourseCreator = () => {
   const navigate = useNavigate();
   const { account } = useWallet();
   const isEditing = !!courseId;
-  
+
   const [isLoading, setIsLoading] = useState(isEditing);
   const [activeSection, setActiveSection] = useState('details');
   const [course, setCourse] = useState({
@@ -46,89 +48,41 @@ const CourseCreator = () => {
       }
     ]
   });
-  
+
   useEffect(() => {
-    if (isEditing) {
-      // Fetch course data based on courseId
-      setIsLoading(true);
-      
-      // Simulating API/blockchain call
-      setTimeout(() => {
-        // Mock course data
-        const mockCourse = {
-          id: parseInt(courseId),
-          title: 'Smart Contract Development',
-          description: 'Learn how to create, test, and deploy smart contracts for Ethereum-based blockchain applications.',
-          price: 0.15,
-          category: 'development',
-          level: 'intermediate',
-          image: 'https://placehold.co/600x400/5e35b1/ffffff?text=Smart+Contracts',
-          estimatedDuration: '8h 45m',
-          requirements: [
-            'Basic understanding of blockchain',
-            'JavaScript knowledge',
-            'Understanding of Web3 concepts'
-          ],
-          learningOutcomes: [
-            'Understand the Solidity programming language',
-            'Create and test smart contracts',
-            'Deploy contracts to Ethereum networks',
-            'Integrate contracts with frontend applications'
-          ],
-          sections: [
-            {
-              id: 1,
-              title: 'Solidity Basics',
-              lessons: [
-                {
-                  id: 1,
-                  title: 'Introduction to Solidity',
-                  type: 'video',
-                  content: 'https://example.com/video1.mp4',
-                  duration: '25m',
-                  isPreview: true
-                },
-                {
-                  id: 2,
-                  title: 'Data Types and Variables',
-                  type: 'document',
-                  content: '# Data Types in Solidity\n\nThis lesson covers the various data types available in Solidity...',
-                  duration: '30m',
-                  isPreview: false
-                }
-              ]
-            },
-            {
-              id: 2,
-              title: 'Smart Contract Structure',
-              lessons: [
-                {
-                  id: 3,
-                  title: 'Creating a Token Contract',
-                  type: 'video',
-                  content: 'https://example.com/video2.mp4',
-                  duration: '35m',
-                  isPreview: false
-                },
-                {
-                  id: 4,
-                  title: 'Implementing ERC20 Standard',
-                  type: 'interactive',
-                  content: 'code-exercise-1',
-                  duration: '45m',
-                  isPreview: false
-                }
-              ]
-            }
-          ]
-        };
-        
-        setCourse(mockCourse);
+    const initializeAndFetchCourse = async () => {
+      try {
+        // Initialize the course service with the current signer
+        if (window.ethereum) {
+          const provider = new ethers.BrowserProvider(window.ethereum);
+          const signer = await provider.getSigner();
+          await courseService.initialize(signer);
+        }
+
+        if (isEditing && courseId) {
+          // Fetch course data for editing from the course service
+          setIsLoading(true);
+          const courseData = await courseService.getCourse(courseId);
+
+          if (courseData) {
+            setCourse(courseData);
+          } else {
+            // Handle course not found
+            alert('Course not found');
+            navigate('/educator/dashboard');
+          }
+        }
+      } catch (error) {
+        console.error('Error initializing or fetching course:', error);
+        alert('Failed to load course data. Please try again.');
+      } finally {
         setIsLoading(false);
-      }, 1000);
-    }
-  }, [courseId, isEditing]);
-  
+      }
+    };
+
+    initializeAndFetchCourse();
+  }, [courseId, isEditing, navigate]);
+
   if (!account) {
     return (
       <div className="course-creator-container">
@@ -139,7 +93,7 @@ const CourseCreator = () => {
       </div>
     );
   }
-  
+
   if (isLoading) {
     return (
       <div className="course-creator-container">
@@ -147,87 +101,87 @@ const CourseCreator = () => {
       </div>
     );
   }
-  
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setCourse(prev => ({ ...prev, [name]: value }));
   };
-  
+
   const handlePriceChange = (e) => {
     let value = parseFloat(e.target.value);
     value = isNaN(value) ? 0 : value;
     setCourse(prev => ({ ...prev, price: value }));
   };
-  
+
   const handleRequirementChange = (index, value) => {
     const updatedRequirements = [...course.requirements];
     updatedRequirements[index] = value;
     setCourse(prev => ({ ...prev, requirements: updatedRequirements }));
   };
-  
+
   const addRequirement = () => {
     setCourse(prev => ({
       ...prev,
       requirements: [...prev.requirements, '']
     }));
   };
-  
+
   const removeRequirement = (index) => {
     const updatedRequirements = [...course.requirements];
     updatedRequirements.splice(index, 1);
     setCourse(prev => ({ ...prev, requirements: updatedRequirements }));
   };
-  
+
   const handleLearningOutcomeChange = (index, value) => {
     const updatedOutcomes = [...course.learningOutcomes];
     updatedOutcomes[index] = value;
     setCourse(prev => ({ ...prev, learningOutcomes: updatedOutcomes }));
   };
-  
+
   const addLearningOutcome = () => {
     setCourse(prev => ({
       ...prev,
       learningOutcomes: [...prev.learningOutcomes, '']
     }));
   };
-  
+
   const removeLearningOutcome = (index) => {
     const updatedOutcomes = [...course.learningOutcomes];
     updatedOutcomes.splice(index, 1);
     setCourse(prev => ({ ...prev, learningOutcomes: updatedOutcomes }));
   };
-  
+
   const handleSectionTitleChange = (sectionIndex, value) => {
     const updatedSections = [...course.sections];
     updatedSections[sectionIndex].title = value;
     setCourse(prev => ({ ...prev, sections: updatedSections }));
   };
-  
+
   const addSection = () => {
     const newSection = {
       id: course.sections.length + 1,
       title: `Section ${course.sections.length + 1}`,
       lessons: []
     };
-    
+
     setCourse(prev => ({
       ...prev,
       sections: [...prev.sections, newSection]
     }));
   };
-  
+
   const removeSection = (sectionIndex) => {
     const updatedSections = [...course.sections];
     updatedSections.splice(sectionIndex, 1);
     setCourse(prev => ({ ...prev, sections: updatedSections }));
   };
-  
+
   const handleLessonChange = (sectionIndex, lessonIndex, field, value) => {
     const updatedSections = [...course.sections];
     updatedSections[sectionIndex].lessons[lessonIndex][field] = value;
     setCourse(prev => ({ ...prev, sections: updatedSections }));
   };
-  
+
   const addLesson = (sectionIndex) => {
     const updatedSections = [...course.sections];
     const newLesson = {
@@ -238,48 +192,83 @@ const CourseCreator = () => {
       duration: '15m',
       isPreview: false
     };
-    
+
     updatedSections[sectionIndex].lessons.push(newLesson);
     setCourse(prev => ({ ...prev, sections: updatedSections }));
   };
-  
+
   const removeLesson = (sectionIndex, lessonIndex) => {
     const updatedSections = [...course.sections];
     updatedSections[sectionIndex].lessons.splice(lessonIndex, 1);
     setCourse(prev => ({ ...prev, sections: updatedSections }));
   };
-  
-  const handleSubmit = (e) => {
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Validate course data
     if (!course.title || !course.description) {
       alert('Please fill in all required fields');
       return;
     }
-    
-    // In a real app, this would create or update a course on the blockchain
-    console.log('Submitting course:', course);
-    
-    // Navigate back to the educator dashboard
-    navigate('/educator/dashboard');
+
+    try {
+      setIsSubmitting(true);
+
+      if (isEditing) {
+        // Update existing course
+        await courseService.updateCourse(courseId, course);
+        alert('Course updated successfully');
+      } else {
+        // Create new course
+        await courseService.createCourse(course, account);
+        alert('Course created successfully');
+      }
+
+      // Navigate back to the educator dashboard
+      navigate('/educator/dashboard');
+    } catch (error) {
+      console.error('Error saving course:', error);
+      alert('Failed to save course. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
-  
-  const handleSaveDraft = () => {
-    // Save course as draft
-    console.log('Saving draft:', course);
-    
-    // Navigate back to the educator dashboard
-    navigate('/educator/dashboard');
+
+  const handleSaveDraft = async () => {
+    try {
+      setIsSubmitting(true);
+
+      // Save course as draft
+      if (isEditing) {
+        // Update existing course
+        await courseService.updateCourse(courseId, { ...course, status: 'draft' });
+      } else {
+        // Create new course as draft
+        await courseService.createCourse({ ...course, status: 'draft' }, account);
+      }
+
+      alert('Draft saved successfully');
+
+      // Navigate back to the educator dashboard
+      navigate('/educator/dashboard');
+    } catch (error) {
+      console.error('Error saving draft:', error);
+      alert('Failed to save draft. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
-  
+
   const handleCancel = () => {
     // Confirm before navigating away
     if (window.confirm('Are you sure you want to cancel? All unsaved changes will be lost.')) {
       navigate('/educator/dashboard');
     }
   };
-  
+
   return (
     <div className="course-creator-container">
       <div className="course-creator-header">
@@ -288,41 +277,49 @@ const CourseCreator = () => {
           <button className="secondary-button" onClick={handleCancel}>
             Cancel
           </button>
-          <button className="secondary-button" onClick={handleSaveDraft}>
-            Save Draft
+          <button
+            className="secondary-button"
+            onClick={handleSaveDraft}
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Saving...' : 'Save Draft'}
           </button>
-          <button className="primary-button" onClick={handleSubmit}>
-            {isEditing ? 'Update Course' : 'Create Course'}
+          <button
+            className="primary-button"
+            onClick={handleSubmit}
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Saving...' : (isEditing ? 'Update Course' : 'Create Course')}
           </button>
         </div>
       </div>
-      
+
       <div className="creator-tabs">
-        <button 
+        <button
           className={`tab-button ${activeSection === 'details' ? 'active' : ''}`}
           onClick={() => setActiveSection('details')}
         >
           Course Details
         </button>
-        <button 
+        <button
           className={`tab-button ${activeSection === 'curriculum' ? 'active' : ''}`}
           onClick={() => setActiveSection('curriculum')}
         >
           Curriculum
         </button>
-        <button 
+        <button
           className={`tab-button ${activeSection === 'pricing' ? 'active' : ''}`}
           onClick={() => setActiveSection('pricing')}
         >
           Pricing & Settings
         </button>
       </div>
-      
+
       <div className="creator-content">
         {activeSection === 'details' && (
           <div className="creator-section">
             <h2 className="section-title">Course Details</h2>
-            
+
             <div className="form-group">
               <label htmlFor="title">Course Title *</label>
               <input
@@ -335,7 +332,7 @@ const CourseCreator = () => {
                 required
               />
             </div>
-            
+
             <div className="form-group">
               <label htmlFor="description">Course Description *</label>
               <textarea
@@ -348,7 +345,7 @@ const CourseCreator = () => {
                 required
               ></textarea>
             </div>
-            
+
             <div className="form-row">
               <div className="form-group">
                 <label htmlFor="category">Category</label>
@@ -365,7 +362,7 @@ const CourseCreator = () => {
                   <option value="trading">Trading</option>
                 </select>
               </div>
-              
+
               <div className="form-group">
                 <label htmlFor="level">Level</label>
                 <select
@@ -380,7 +377,7 @@ const CourseCreator = () => {
                 </select>
               </div>
             </div>
-            
+
             <div className="form-group">
               <label htmlFor="image">Course Image URL</label>
               <input
@@ -397,7 +394,7 @@ const CourseCreator = () => {
                 </div>
               )}
             </div>
-            
+
             <div className="form-group">
               <label htmlFor="estimatedDuration">Estimated Duration</label>
               <input
@@ -409,7 +406,7 @@ const CourseCreator = () => {
                 placeholder="e.g., 4h 30m"
               />
             </div>
-            
+
             <div className="form-group">
               <label>Requirements</label>
               {course.requirements.map((requirement, index) => (
@@ -420,8 +417,8 @@ const CourseCreator = () => {
                     onChange={(e) => handleRequirementChange(index, e.target.value)}
                     placeholder="What should students know before starting?"
                   />
-                  <button 
-                    type="button" 
+                  <button
+                    type="button"
                     className="remove-item"
                     onClick={() => removeRequirement(index)}
                   >
@@ -431,8 +428,8 @@ const CourseCreator = () => {
                   </button>
                 </div>
               ))}
-              <button 
-                type="button" 
+              <button
+                type="button"
                 className="add-item"
                 onClick={addRequirement}
               >
@@ -442,7 +439,7 @@ const CourseCreator = () => {
                 Add Requirement
               </button>
             </div>
-            
+
             <div className="form-group">
               <label>Learning Outcomes</label>
               {course.learningOutcomes.map((outcome, index) => (
@@ -453,8 +450,8 @@ const CourseCreator = () => {
                     onChange={(e) => handleLearningOutcomeChange(index, e.target.value)}
                     placeholder="What will students learn?"
                   />
-                  <button 
-                    type="button" 
+                  <button
+                    type="button"
                     className="remove-item"
                     onClick={() => removeLearningOutcome(index)}
                   >
@@ -464,8 +461,8 @@ const CourseCreator = () => {
                   </button>
                 </div>
               ))}
-              <button 
-                type="button" 
+              <button
+                type="button"
                 className="add-item"
                 onClick={addLearningOutcome}
               >
@@ -477,11 +474,11 @@ const CourseCreator = () => {
             </div>
           </div>
         )}
-        
+
         {activeSection === 'curriculum' && (
           <div className="creator-section">
             <h2 className="section-title">Course Curriculum</h2>
-            
+
             <div className="curriculum-container">
               {course.sections.map((section, sectionIndex) => (
                 <div key={sectionIndex} className="curriculum-section">
@@ -495,8 +492,8 @@ const CourseCreator = () => {
                         placeholder="Section Title"
                       />
                     </div>
-                    <button 
-                      type="button" 
+                    <button
+                      type="button"
                       className="remove-section"
                       onClick={() => removeSection(sectionIndex)}
                     >
@@ -505,7 +502,7 @@ const CourseCreator = () => {
                       </svg>
                     </button>
                   </div>
-                  
+
                   <div className="lessons-container">
                     {section.lessons.map((lesson, lessonIndex) => (
                       <div key={lessonIndex} className="lesson-item">
@@ -543,8 +540,8 @@ const CourseCreator = () => {
                               />
                               Preview
                             </label>
-                            <button 
-                              type="button" 
+                            <button
+                              type="button"
                               className="remove-lesson"
                               onClick={() => removeLesson(sectionIndex, lessonIndex)}
                             >
@@ -554,7 +551,7 @@ const CourseCreator = () => {
                             </button>
                           </div>
                         </div>
-                        
+
                         <div className="lesson-content">
                           {lesson.type === 'document' ? (
                             <textarea
@@ -574,9 +571,9 @@ const CourseCreator = () => {
                         </div>
                       </div>
                     ))}
-                    
-                    <button 
-                      type="button" 
+
+                    <button
+                      type="button"
                       className="add-lesson"
                       onClick={() => addLesson(sectionIndex)}
                     >
@@ -588,9 +585,9 @@ const CourseCreator = () => {
                   </div>
                 </div>
               ))}
-              
-              <button 
-                type="button" 
+
+              <button
+                type="button"
                 className="add-section"
                 onClick={addSection}
               >
@@ -602,11 +599,11 @@ const CourseCreator = () => {
             </div>
           </div>
         )}
-        
+
         {activeSection === 'pricing' && (
           <div className="creator-section">
             <h2 className="section-title">Pricing & Settings</h2>
-            
+
             <div className="form-group">
               <label htmlFor="price">Course Price (LRN)</label>
               <input
@@ -622,7 +619,7 @@ const CourseCreator = () => {
                 Set a competitive price for your course. The platform fee is 10%.
               </p>
             </div>
-            
+
             <div className="pricing-estimator">
               <h3>Price Breakdown</h3>
               <div className="price-breakdown">
@@ -640,7 +637,7 @@ const CourseCreator = () => {
                 </div>
               </div>
             </div>
-            
+
             <div className="form-group">
               <h3>Certificate Settings</h3>
               <div className="checkbox-group">
@@ -653,17 +650,25 @@ const CourseCreator = () => {
           </div>
         )}
       </div>
-      
+
       <div className="course-creator-footer">
         <div className="creator-actions">
           <button className="secondary-button" onClick={handleCancel}>
             Cancel
           </button>
-          <button className="secondary-button" onClick={handleSaveDraft}>
-            Save Draft
+          <button
+            className="secondary-button"
+            onClick={handleSaveDraft}
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Saving...' : 'Save Draft'}
           </button>
-          <button className="primary-button" onClick={handleSubmit}>
-            {isEditing ? 'Update Course' : 'Create Course'}
+          <button
+            className="primary-button"
+            onClick={handleSubmit}
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Saving...' : (isEditing ? 'Update Course' : 'Create Course')}
           </button>
         </div>
       </div>
@@ -671,4 +676,4 @@ const CourseCreator = () => {
   );
 };
 
-export default CourseCreator; 
+export default CourseCreator;
