@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { WalletProvider } from './context/WalletContext';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import { useState, useEffect } from 'react';
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
@@ -11,20 +12,25 @@ import Documentation from './components/Documentation/Documentation';
 import EducatorDashboard from './components/EducatorDashboard/EducatorDashboard';
 import CourseCreator from './components/EducatorDashboard/CourseCreator';
 import Login from './components/Login/Login';
+import BackgroundGrid from './components/BackgroundGrid';
 import './App.css';
 
 // Protected route component for role-based access control
 const ProtectedRoute = ({ element, allowedRoles }) => {
   const location = useLocation();
-  const userRole = localStorage.getItem('userRole');
-  const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+  const { isAuthenticated, userRole, isLoading } = useAuth();
 
   console.log('Protected Route Check:');
   console.log('- Path:', location.pathname);
   console.log('- User Role:', userRole);
   console.log('- Is Authenticated:', isAuthenticated);
   console.log('- Allowed Roles:', allowedRoles);
-  console.log('- Has Access:', allowedRoles.includes(userRole));
+  console.log('- Has Access:', allowedRoles ? allowedRoles.includes(userRole) : false);
+
+  // Show loading state while auth is being checked
+  if (isLoading) {
+    return <div className="loading-container">Loading...</div>;
+  }
 
   if (!isAuthenticated) {
     // Redirect to login if not authenticated
@@ -64,10 +70,12 @@ function App() {
   }, []);
 
   return (
-    <WalletProvider>
-      <Router>
-        <div className="app">
-          {showNavFooter && <Navbar />}
+    <Router>
+      <AuthProvider>
+        <WalletProvider>
+          <div className="app">
+            <BackgroundGrid />
+            {showNavFooter && <Navbar />}
           <main className={`main-content ${!showNavFooter ? 'full-height' : ''}`}>
             <Routes>
               <Route path="/" element={<HomePage />} />
@@ -116,9 +124,10 @@ function App() {
             </Routes>
           </main>
           {showNavFooter && <Footer />}
-        </div>
-      </Router>
-    </WalletProvider>
+          </div>
+        </WalletProvider>
+      </AuthProvider>
+    </Router>
   );
 }
 

@@ -1,14 +1,42 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { WalletContext } from '../../context/WalletContext';
+import { useAuth } from '../../context/AuthContext';
 import './Login.css';
 
 const Login = () => {
   const [role, setRole] = useState('student');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const { connectWallet, account } = useContext(WalletContext);
+  const { connectWallet, account, isConnecting } = useContext(WalletContext);
+  const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
+
+  // Effect to handle successful wallet connection
+  useEffect(() => {
+    // If wallet is connected and we're in loading state, proceed with login
+    if (account && isLoading && !isConnecting) {
+      console.log('Wallet connected, proceeding with login');
+      // In a real app, we would verify the user's role on the blockchain
+      // For now, we'll just use the selected role
+      login(role);
+      console.log('Login successful with role:', role);
+      setIsLoading(false);
+    }
+  }, [account, isLoading, isConnecting, login, role]);
+
+  // Effect to handle authentication state changes
+  useEffect(() => {
+    if (isAuthenticated) {
+      // If already authenticated, redirect based on role
+      const userRole = localStorage.getItem('userRole');
+      if (userRole === 'educator') {
+        navigate('/educator/dashboard');
+      } else if (userRole === 'student') {
+        navigate('/explore');
+      }
+    }
+  }, [isAuthenticated, navigate]);
 
   // Function to handle role selection
   const handleRoleChange = (selectedRole) => {
@@ -21,36 +49,25 @@ const Login = () => {
       setIsLoading(true);
       setError(null);
 
-      // Connect wallet
-      await connectWallet();
-
-      if (!account) {
-        setError('Failed to connect wallet. Please try again.');
+      // If already connected, proceed with login
+      if (account) {
+        login(role);
+        console.log('Already connected, login successful with role:', role);
         setIsLoading(false);
         return;
       }
 
-      // In a real app, we would verify the user's role on the blockchain
-      // For now, we'll just use the selected role
+      // Connect wallet - the useEffect will handle the login after connection
+      await connectWallet();
 
-      // Store user role and authentication status in localStorage
-      localStorage.setItem('userRole', role);
-      localStorage.setItem('isAuthenticated', 'true');
-
-      console.log('Setting user role:', role);
-      console.log('Setting isAuthenticated: true');
-
-      // Redirect based on role
-      if (role === 'educator') {
-        navigate('/educator/dashboard');
-      } else {
-        navigate('/explore');
+      // If connection failed immediately
+      if (!account && !isConnecting) {
+        setError('Failed to connect wallet. Please try again.');
+        setIsLoading(false);
       }
-
     } catch (error) {
       console.error('Login error:', error);
       setError('An error occurred during login. Please try again.');
-    } finally {
       setIsLoading(false);
     }
   };

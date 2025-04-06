@@ -6,7 +6,12 @@
 
 @media (max-width: 1200px) {
   .hero-text-title {
-    font-size: 3.2rem;
+    font-size: 4.5rem;
+  }
+
+  .hero-text-subtitle {
+    max-width: 90%;
+    font-size: 1.5rem;
   }
 
   .stats-container {
@@ -17,11 +22,17 @@
 
 @media (max-width: 992px) {
   .hero-text-title {
-    font-size: 3rem;
+    font-size: 4rem;
+  }
+
+  .hero-text-subtitle {
+    font-size: 1.4rem;
+    max-width: 95%;
   }
 
   .hero-text-container {
-    padding: 3.5rem 1.75rem;
+    padding: 6rem 1.75rem 4rem;
+    margin-top: 1.5rem;
   }
 
   .learning-path-step {
@@ -35,15 +46,20 @@
 
 @media (max-width: 768px) {
   .hero-text-container {
-    padding: 3rem 1.5rem;
+    padding: 5rem 1.5rem 3rem;
+    margin-top: 1.25rem;
   }
 
   .hero-text-title {
-    font-size: 2.5rem;
+    font-size: 3.5rem;
+    background: linear-gradient(90deg, #092ec4, #4b66f2);
+    -webkit-background-clip: text;
+    background-clip: text;
   }
 
   .hero-text-subtitle {
-    font-size: 1.1rem;
+    font-size: 1.3rem;
+    max-width: 100%;
   }
 
   .stats-container {
@@ -84,15 +100,20 @@
 
 @media (max-width: 480px) {
   .hero-text-container {
-    padding: 2rem 1rem;
+    padding: 4rem 1rem 2.5rem;
+    margin-top: 1rem;
   }
 
   .hero-text-title {
-    font-size: 2rem;
+    font-size: 2.8rem;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    padding-bottom: 0.1em;
   }
 
   .hero-text-subtitle {
-    font-size: 1rem;
+    font-size: 1.2rem;
+    line-height: 1.4;
   }
 
   .hero-cta {
@@ -141,5 +162,25 @@
     width: calc(100% - 50px);
     height: 2px;
     margin: 0 0 0 8px;
+  }
+}
+
+@media (max-width: 360px) {
+  .hero-text-container {
+    padding: 3.5rem 1rem 2rem;
+    margin-top: 0.75rem;
+  }
+
+  .hero-text-title {
+    font-size: 2.4rem;
+  }
+
+  .hero-text-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .hero-cta {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
   }
 }

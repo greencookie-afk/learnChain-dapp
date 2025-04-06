@@ -1,53 +1,98 @@
 .wallet-connect-container {
   display: inline-flex;
   align-items: center;
+  max-width: 100%;
+}
+
+/* Media queries for responsive wallet display */
+@media (max-width: 1050px) {
+  .wallet-connect-container {
+    width: 100%;
+  }
+
+  .wallet-connected {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .account-display {
+    max-width: 60%;
+    font-size: 0.7rem;
+    padding: 0.25rem 0.4rem;
+  }
+
+  .balance {
+    font-size: 0.65rem;
+  }
+
+  .wallet-icon {
+    width: 14px;
+    height: 14px;
+  }
 }
 
 .wallet-connected {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.4rem;
+  flex-wrap: nowrap;
 }
 
 .account-display {
   background-color: rgba(13, 75, 110, 0.1);
   color: var(--primary-color);
-  padding: 0.5rem 1rem;
+  padding: 0.3rem 0.5rem;
   border-radius: 20px;
-  font-size: 0.9rem;
+  font-size: 0.75rem;
   font-weight: 600;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.25rem;
   border: 1px solid rgba(13, 75, 110, 0.2);
   font-family: monospace;
   transition: all 0.2s var(--transition-ease);
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
 }
 
 .account-display:hover {
-  background-color: rgba(13, 75, 110, 0.15);
-  border-color: rgba(13, 75, 110, 0.3);
+  background-color: rgba(13, 75, 110, 0.2);
+  border-color: rgba(13, 75, 110, 0.4);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.address {
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .balance {
   margin-left: 0.25rem;
   opacity: 0.85;
+  font-size: 0.75rem;
+  white-space: nowrap;
 }
 
 .connect-wallet-button {
-  padding: 0.6rem 1.25rem;
+  padding: 0.4rem 0.75rem;
   border-radius: 20px;
   border: none;
   background: var(--gradient-primary);
   color: white;
   cursor: pointer;
   transition: all 0.3s var(--transition-ease);
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 600;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.3rem;
   box-shadow: 0 4px 10px rgba(13, 75, 110, 0.2);
+  white-space: nowrap;
 }
 
 .connect-wallet-button:hover {
@@ -60,27 +105,9 @@
   cursor: not-allowed;
 }
 
-.disconnect-button {
-  padding: 0.6rem 1.25rem;
-  border-radius: 20px;
-  background-color: transparent;
-  color: var(--text-secondary);
-  border: 1px solid var(--border-color);
-  cursor: pointer;
-  transition: all 0.2s var(--transition-ease);
-  font-size: 0.9rem;
-  font-weight: 500;
-}
-
-.disconnect-button:hover {
-  background-color: rgba(244, 67, 54, 0.08);
-  color: var(--danger-color);
-  border-color: rgba(244, 67, 54, 0.3);
-}
-
 .wallet-icon {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   stroke: currentColor;
 }
 
@@ -109,4 +136,4 @@
   margin-right: 0.5rem;
   font-weight: bold;
   font-size: 0.75rem;
-} 
+}

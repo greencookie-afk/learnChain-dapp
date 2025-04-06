@@ -1,11 +1,11 @@
 /* Base styles for dark mode */
 :root {
-  /* Dark theme color scheme with full black background and subtle blue accents */
-  --bg-primary: #050505;
-  --bg-secondary: #0a0a0a;
-  --bg-tertiary: #101010;
-  --bg-card: #0f0f0f;
-  --bg-hover: #151515;
+  /* Dark theme color scheme with full black background and Web3 gradients */
+  --bg-primary: #000000;
+  --bg-secondary: #050505;
+  --bg-tertiary: #0a0a0a;
+  --bg-card: #080808;
+  --bg-hover: #101010;
 
   --text-primary: #f2f2f2;
   --text-secondary: #aaaaaa;
@@ -70,7 +70,7 @@ html {
 }
 
 body {
-  font-family: 'Inter', 'Segoe UI', 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Open Sans', 'Segoe UI', 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
   line-height: 1.5;
   color: var(--text-primary);
   background-color: var(--bg-primary);

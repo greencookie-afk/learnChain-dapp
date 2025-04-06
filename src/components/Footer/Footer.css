@@ -21,6 +21,15 @@
   margin-bottom: 1.2rem;
 }
 
+.footer-title:first-child {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .footer-description {
   font-size: 0.9rem;
   line-height: 1.6;
@@ -95,11 +104,11 @@
   .footer-container {
     grid-template-columns: 1fr;
   }
-  
+
   .footer {
     padding: 2rem 0 1rem;
   }
-  
+
   .footer-section {
     margin-bottom: 2rem;
   }

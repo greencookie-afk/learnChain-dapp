@@ -1,28 +1,37 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useWallet } from '../../context/WalletContext';
+import { useAuth } from '../../context/AuthContext';
 import WalletConnect from '../WalletConnect/WalletConnect';
 import './Navbar.css';
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userRole, setUserRole] = useState(null);
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { account, disconnectWallet } = useWallet();
+  const { isAuthenticated, userRole, logout } = useAuth();
 
+  // Handle scroll effect for navbar
   useEffect(() => {
-    // Check authentication status from localStorage
-    const authStatus = localStorage.getItem('isAuthenticated') === 'true';
-    const role = localStorage.getItem('userRole');
+    const handleScroll = () => {
+      const offset = window.scrollY;
+      if (offset > 50) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
 
-    console.log('Auth status:', authStatus);
-    console.log('User role:', role);
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
-    setIsAuthenticated(authStatus);
-    setUserRole(role);
-  }, [account]);
+  console.log('Navbar - Auth status:', isAuthenticated);
+  console.log('Navbar - User role:', userRole);
 
   const isActive = (path) => {
     return location.pathname === path || location.pathname.startsWith(path + '/');
@@ -33,23 +42,15 @@ const Navbar = () => {
   };
 
   const handleLogout = () => {
-    // Clear authentication data
-    localStorage.removeItem('isAuthenticated');
-    localStorage.removeItem('userRole');
-
     // Disconnect wallet
     disconnectWallet();
 
-    // Update state
-    setIsAuthenticated(false);
-    setUserRole(null);
-
-    // Navigate to home
-    navigate('/');
+    // Use the auth context to handle logout
+    logout();
   };
 
   return (
-    <header className="navbar">
+    <header className={`navbar ${scrolled ? 'scrolled' : ''}`}>
       <h1 className="navbar-logo">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>

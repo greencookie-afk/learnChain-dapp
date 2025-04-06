@@ -105,14 +105,14 @@ const CourseList = () => {
           category: "governance"
         }
       ];
-      
+
       setTimeout(() => {
         setCourses(mockCourses);
         setFilteredCourses(mockCourses);
         setIsLoading(false);
       }, 1000); // Simulate network delay
     };
-    
+
     fetchCourses();
   }, []);
 
@@ -122,21 +122,21 @@ const CourseList = () => {
 
   const filterCourses = () => {
     let filtered = [...courses];
-    
+
     // Apply category filter
     if (activeFilter !== 'all') {
       filtered = filtered.filter(course => course.category === activeFilter);
     }
-    
+
     // Apply search filter
     if (searchQuery.trim() !== '') {
       const query = searchQuery.toLowerCase();
-      filtered = filtered.filter(course => 
-        course.title.toLowerCase().includes(query) || 
+      filtered = filtered.filter(course =>
+        course.title.toLowerCase().includes(query) ||
         course.description.toLowerCase().includes(query)
       );
     }
-    
+
     setFilteredCourses(filtered);
   };
 
@@ -173,24 +173,26 @@ const CourseList = () => {
       <div className="course-list-header">
         <h2 className="course-list-title">Explore Courses</h2>
       </div>
-      
+
       <div className="search-bar">
-        <svg className="search-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M21 21L16.65 16.65" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-        <input 
-          type="text" 
-          className="search-input" 
-          placeholder="Search for courses..." 
+        <div className="search-icon-wrapper">
+          <svg className="search-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M21 21L16.65 16.65" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </div>
+        <input
+          type="text"
+          className="search-input"
+          placeholder="Search for courses..."
           value={searchQuery}
           onChange={handleSearchChange}
         />
       </div>
-      
+
       <div className="filter-bar">
         {categories.map(category => (
-          <div 
+          <div
             key={category.id}
             className={`filter-item ${activeFilter === category.id ? 'active' : ''}`}
             onClick={() => handleFilterChange(category.id)}
@@ -199,7 +201,7 @@ const CourseList = () => {
           </div>
         ))}
       </div>
-      
+
       {isLoading ? (
         <p className="no-courses-message">Loading courses...</p>
       ) : filteredCourses.length > 0 ? (
@@ -222,7 +224,10 @@ const CourseList = () => {
           </div>
           {visibleCount < filteredCourses.length && (
             <button className="view-more-btn" onClick={handleViewMore}>
-              View More Courses
+              <span>View More Courses</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19 12H5M12 19L5 12L12 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
             </button>
           )}
         </>
@@ -233,4 +238,4 @@ const CourseList = () => {
   );
 };
 
-export default CourseList; 
+export default CourseList;
