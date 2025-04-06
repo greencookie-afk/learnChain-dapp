@@ -7,9 +7,9 @@ import { getIPFSUrl } from './ipfsService';
 // Contract addresses - these would be the deployed contract addresses
 // For development, these would be updated after deployment
 const CONTRACT_ADDRESSES = {
-  courseRegistry: process.env.VITE_COURSE_REGISTRY_ADDRESS,
-  certificateNFT: process.env.VITE_CERTIFICATE_NFT_ADDRESS,
-  lrnToken: process.env.VITE_LRN_TOKEN_ADDRESS
+  courseRegistry: import.meta.env.VITE_COURSE_REGISTRY_ADDRESS,
+  certificateNFT: import.meta.env.VITE_CERTIFICATE_NFT_ADDRESS,
+  lrnToken: import.meta.env.VITE_LRN_TOKEN_ADDRESS
 };
 
 /**
@@ -19,31 +19,33 @@ const CONTRACT_ADDRESSES = {
  */
 export const initContracts = async (providerOrSigner) => {
   try {
-    // Return mock contract instances
+    // Create real contract instances with the deployed addresses
+    const courseRegistry = new ethers.Contract(
+      CONTRACT_ADDRESSES.courseRegistry,
+      CourseRegistryABI,
+      providerOrSigner
+    );
+    
+    const certificateNFT = new ethers.Contract(
+      CONTRACT_ADDRESSES.certificateNFT,
+      CertificateNFTABI,
+      providerOrSigner
+    );
+    
+    const lrnToken = new ethers.Contract(
+      CONTRACT_ADDRESSES.lrnToken,
+      LRNTokenABI,
+      providerOrSigner
+    );
+    
     return {
-      courseRegistry: {
-        createCourse: async () => ({ wait: async () => ({ events: [{ event: 'CourseCreated', args: { courseId: '1' } }] }) }),
-        enrollInCourse: async () => ({ wait: async () => ({ events: [] }) }),
-        getCourse: async () => ({ price: ethers.parseEther('10') })
-      },
-      certificateNFT: {
-        mintCertificate: async () => ({ wait: async () => ({ events: [{ event: 'CertificateMinted', args: { tokenId: '1' } }] }) }),
-        getCertificateMetadata: async () => ({
-          courseId: '1',
-          courseTitle: 'Test Course',
-          student: '0x123...',
-          issuedAt: Date.now() / 1000,
-          issuer: '0x456...'
-        })
-      },
-      lrnToken: {
-        approve: async () => ({ wait: async () => {} }),
-        transfer: async () => ({ wait: async () => {} })
-      }
+      courseRegistry,
+      certificateNFT,
+      lrnToken
     };
   } catch (error) {
     console.error('Error initializing contracts:', error);
-    return null;
+    throw new Error('Failed to initialize contracts: ' + error.message);
   }
 };
 

@@ -1,20 +1,11 @@
 import { createContext, useState, useEffect, useContext } from 'react';
 import { ethers } from 'ethers';
+import LRNTokenABI from '../contracts/abis/LRNToken.json';
 
 export const WalletContext = createContext();
 
-// LRN token contract address - this will be replaced with the actual deployed token address
-const LRN_TOKEN_ADDRESS = "0x9A676e781A523b5d0C0e43731313A708CB607508";
-
-// Simplified ERC20 ABI for our token
-const LRN_TOKEN_ABI = [
-  "function balanceOf(address owner) view returns (uint256)",
-  "function decimals() view returns (uint8)",
-  "function symbol() view returns (string)",
-  "function transfer(address to, uint amount) returns (bool)",
-  "function allowance(address owner, address spender) view returns (uint256)",
-  "function approve(address spender, uint256 amount) returns (bool)"
-];
+// LRN token contract address from environment variables
+const LRN_TOKEN_ADDRESS = import.meta.env.VITE_LRN_TOKEN_ADDRESS;
 
 export const WalletProvider = ({ children }) => {
   const [account, setAccount] = useState(null);
@@ -44,7 +35,7 @@ export const WalletProvider = ({ children }) => {
           // Set up LRN token contract
           const tokenContract = new ethers.Contract(
             LRN_TOKEN_ADDRESS,
-            LRN_TOKEN_ABI,
+            LRNTokenABI,
             ethersProvider
           );
           setLrnToken(tokenContract);
@@ -149,7 +140,7 @@ export const WalletProvider = ({ children }) => {
       // Set up LRN token contract
       const tokenContract = new ethers.Contract(
         LRN_TOKEN_ADDRESS,
-        LRN_TOKEN_ABI,
+        LRNTokenABI,
         ethersProvider
       );
       setLrnToken(tokenContract);
