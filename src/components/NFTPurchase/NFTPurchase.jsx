@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useWallet } from '../../context/WalletContext';
+import { ethers } from 'ethers';
 import './NFTPurchase.css';
 
 const NFTPurchase = ({ courseId, courseTitle, price, onPurchaseComplete }) => {
@@ -21,20 +22,32 @@ const NFTPurchase = ({ courseId, courseTitle, price, onPurchaseComplete }) => {
       // Simulate blockchain interaction
       console.log(`Purchasing course ${courseId}: ${courseTitle} for ${price} LRN`);
       
-      // Here you would have the actual Web3 transaction code:
-      // 1. Create contract instance
-      // 2. Call purchase function with appropriate parameters
-      // 3. Wait for transaction confirmation
-      
-      // Simulate transaction delay
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Simulate successful purchase
-      setIsProcessing(false);
-      
-      // Call the callback function
-      if (onPurchaseComplete) {
-        onPurchaseComplete(courseId);
+      // Create simple transaction to trigger wallet popup
+      try {
+        // Simple dummy transaction to show wallet confirmation
+        const tx = await signer.sendTransaction({
+          to: account,
+          value: ethers.parseEther("0"),
+        });
+        
+        // Wait for confirmation
+        await tx.wait();
+        console.log("Transaction confirmed:", tx.hash);
+        
+        // Simulate successful purchase
+        setIsProcessing(false);
+        
+        // Call the callback function
+        if (onPurchaseComplete) {
+          onPurchaseComplete(courseId);
+        }
+        
+      } catch (err) {
+        console.error("Wallet error:", err);
+        if (err.code === "ACTION_REJECTED") {
+          throw new Error("Transaction rejected in wallet");
+        }
+        throw err;
       }
       
     } catch (error) {
@@ -85,7 +98,7 @@ const NFTPurchase = ({ courseId, courseTitle, price, onPurchaseComplete }) => {
         ) : isProcessing ? (
           <>
             <span className="spinner"></span>
-            Processing...
+            Confirm in Wallet...
           </>
         ) : (
           <>

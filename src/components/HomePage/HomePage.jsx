@@ -1,8 +1,173 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { motion, useAnimation } from 'framer-motion';
 import CourseCard from '../CourseCard/CourseCard';
 import './HomePage.css';
 import './HomePageResponsive.css';
+
+// Blockchain particle component
+const BlockchainParticle = ({ size, top, left, delay }) => {
+  return (
+    <motion.div
+      className="hero-particle"
+      style={{
+        width: size,
+        height: size,
+        top: `${top}%`,
+        left: `${left}%`,
+      }}
+      initial={{ opacity: 0 }}
+      animate={{ 
+        opacity: [0.3, 0.6, 0.3],
+        y: [0, -15, 0],
+        x: [0, 10, 0]
+      }}
+      transition={{
+        duration: 5 + Math.random() * 3,
+        delay: delay,
+        repeat: Infinity,
+        ease: "easeInOut"
+      }}
+      whileHover={{ 
+        scale: 1.5, 
+        opacity: 0.8,
+        boxShadow: "0 0 20px rgba(61, 90, 241, 0.5), inset 0 0 10px rgba(9, 46, 196, 0.5)",
+        transition: { duration: 0.3 }
+      }}
+    />
+  );
+};
+
+// Animated text component with letter-by-letter animation
+const AnimatedText = ({ text, className }) => {
+  // Split text into an array of letters
+  const letters = Array.from(text);
+  
+  // Reference for the text container for mouse parallax effect
+  const textRef = useRef(null);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  
+  // Mouse move handler for 3D hover effect
+  const handleMouseMove = (e) => {
+    if (!textRef.current) return;
+    
+    const rect = textRef.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    
+    // Calculate distance from center as percentage
+    const x = (e.clientX - centerX) / (rect.width / 2);
+    const y = (e.clientY - centerY) / (rect.height / 2);
+    
+    setMousePosition({ x, y });
+  };
+  
+  // Reset mouse position when mouse leaves
+  const handleMouseLeave = () => {
+    setMousePosition({ x: 0, y: 0 });
+  };
+
+  // Container variants for the whole text
+  const textContainerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { 
+        staggerChildren: 0.03,
+        delayChildren: 0.1,
+        duration: 0.5
+      }
+    }
+  };
+
+  // Child variants for each letter
+  const letterVariants = {
+    hidden: { 
+      y: 20, 
+      opacity: 0,
+      rotateX: 40,
+      scale: 0.9
+    },
+    visible: {
+      y: 0,
+      opacity: 1,
+      rotateX: 0,
+      scale: 1,
+      transition: {
+        type: "spring",
+        damping: 12,
+        stiffness: 150,
+        duration: 0.4
+      }
+    }
+  };
+  
+  // Floating animation for letters - simplified for better performance
+  const floatingVariants = {
+    animate: (i) => ({
+      y: [0, -5, 0],
+      rotateZ: [0, i % 2 === 0 ? 2 : -2, 0],
+      scale: [1, 1.08, 1],
+      transition: {
+        duration: 2.5,
+        repeat: Infinity,
+        repeatType: "reverse",
+        ease: "easeInOut",
+        delay: i * 0.03
+      }
+    })
+  };
+
+  return (
+    <motion.div
+      ref={textRef}
+      className="text-3d-container"
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ 
+        display: 'inline-block',
+        transformStyle: 'preserve-3d',
+        transform: `perspective(1000px) rotateX(${mousePosition.y * 5}deg) rotateY(${-mousePosition.x * 5}deg)`
+      }}
+      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+    >
+      <motion.h1
+        className={className}
+        variants={textContainerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        {letters.map((letter, index) => (
+          <motion.span
+            key={index}
+            variants={{
+              ...letterVariants,
+              animate: floatingVariants.animate(index)
+            }}
+            custom={index}
+            animate="animate"
+            style={{ 
+              display: 'inline-block', 
+              marginRight: letter === " " ? "0.5em" : "0",
+              perspective: "1000px",
+              transformStyle: "preserve-3d",
+              willChange: "transform"
+            }}
+            whileHover={{
+              scale: 1.3,
+              rotateY: 15,
+              z: 30,
+              filter: "drop-shadow(0 0 8px rgba(61, 90, 241, 0.6))",
+              transition: { type: "spring", damping: 8, duration: 0.3 }
+            }}
+          >
+            {letter === " " ? "\u00A0" : letter}
+          </motion.span>
+        ))}
+      </motion.h1>
+    </motion.div>
+  );
+};
 
 const HomePage = () => {
   const [featuredCourses, setFeaturedCourses] = useState([]);
@@ -13,8 +178,22 @@ const HomePage = () => {
     certificatesEarned: 1,
     streak: 7
   });
+  const [particles, setParticles] = useState([]);
 
   useEffect(() => {
+    // Generate random blockchain particles
+    const particlesArray = [];
+    for (let i = 0; i < 10; i++) {
+      particlesArray.push({
+        id: i,
+        size: 10 + Math.random() * 40,
+        top: Math.random() * 90,
+        left: Math.random() * 90,
+        delay: Math.random() * 2
+      });
+    }
+    setParticles(particlesArray);
+
     // Simulate fetching data from API
     const fetchData = async () => {
       setIsLoading(true);
@@ -70,24 +249,110 @@ const HomePage = () => {
     // In a real app, this would connect to the blockchain
   };
 
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.3
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { type: "spring", stiffness: 100 }
+    }
+  };
+
+  const ctaVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0, 
+      opacity: 1,
+      transition: { 
+        type: "spring", 
+        stiffness: 120,
+        delay: 0.8
+      }
+    },
+    hover: { 
+      scale: 1.03,
+      boxShadow: "0 15px 25px rgba(9, 46, 196, 0.4)",
+      transition: { 
+        type: "spring", 
+        stiffness: 400, 
+        damping: 8 
+      }
+    },
+    tap: { 
+      scale: 0.97,
+      boxShadow: "0 5px 10px rgba(9, 46, 196, 0.3)" 
+    }
+  };
+
+  const floatingIconVariants = {
+    animate: {
+      y: [0, -8, 0],
+      transition: {
+        duration: 2,
+        repeat: Infinity,
+        repeatType: "reverse",
+        ease: "easeInOut"
+      }
+    }
+  };
+
   return (
     <div className="home-container">
-      {/* Hero Section - Centered text */}
-      <section className="hero-text-container">
+      {/* Hero Section - Centered text with Motion animations */}
+      <motion.section 
+        className="hero-text-container"
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
+      >
+        {/* Animated blockchain particles */}
+        {particles.map(particle => (
+          <BlockchainParticle
+            key={particle.id}
+            size={particle.size}
+            top={particle.top}
+            left={particle.left}
+            delay={particle.delay}
+          />
+        ))}
+        
         <div className="hero-text-content">
-          <h1 className="hero-text-title">Blockchain Learning</h1>
+          <AnimatedText
+            text="Blockchain Learning"
+            className="hero-text-title"
+          />
           <p className="hero-text-subtitle">
             Master blockchain development through interactive courses and hands-on projects.
             Start your journey into Web3 and decentralized technologies today.
           </p>
-          <Link to="/explore" className="hero-cta">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 6V18M12 18L18 12M12 18L6 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            Explore Courses
-          </Link>
+          <div style={{ display: 'inline-block' }}>
+            <Link to="/explore" className="hero-cta">
+              <svg 
+                width="20" 
+                height="20" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M12 6V18M12 18L18 12M12 18L6 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              EXPLORE COURSES
+            </Link>
+          </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Stats Section */}
       <section>

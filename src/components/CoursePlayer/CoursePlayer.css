@@ -1,0 +1,360 @@
+.course-player-container {
+  display: flex;
+  gap: 2rem;
+  background-color: var(--bg-primary);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-medium);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Course Content Section (Video + Info) */
+.course-content {
+  flex: 1;
+  min-width: 0; /* Fix for flexbox overflow issues */
+}
+
+/* Video Player */
+.video-player {
+  position: relative;
+  width: 100%;
+  background-color: #000;
+  border-radius: 8px;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+}
+
+.video-player.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  border-radius: 0;
+}
+
+.video-element {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background-color: #000;
+}
+
+/* Video Controls */
+.video-controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 1rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.video-controls.visible {
+  opacity: 1;
+}
+
+.progress-container {
+  width: 100%;
+  cursor: pointer;
+}
+
+.progress-bar {
+  height: 4px;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: var(--primary-color);
+  border-radius: 2px;
+  transition: width 0.1s linear;
+}
+
+.time-display {
+  display: flex;
+  justify-content: flex-end;
+  color: white;
+  font-size: 0.8rem;
+  opacity: 0.9;
+}
+
+.controls-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.control-button {
+  background: none;
+  border: none;
+  color: white;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.control-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.control-button svg {
+  width: 24px;
+  height: 24px;
+}
+
+.volume-control {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: white;
+}
+
+.volume-control svg {
+  width: 24px;
+  height: 24px;
+}
+
+.volume-slider {
+  appearance: none;
+  width: 80px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  outline: none;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: white;
+  cursor: pointer;
+}
+
+.volume-slider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: white;
+  cursor: pointer;
+  border: none;
+}
+
+/* Course Info */
+.course-info {
+  padding: 1.5rem 0.5rem;
+}
+
+.course-title {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.course-description {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* Course Lessons Section */
+.course-lessons {
+  width: 300px;
+  border-left: 1px solid var(--border-color);
+  padding: 1.5rem;
+  background: var(--bg-secondary);
+  max-height: 600px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-color) transparent;
+}
+
+.course-lessons::-webkit-scrollbar {
+  width: 4px;
+}
+
+.course-lessons::-webkit-scrollbar-thumb {
+  background-color: var(--border-color);
+  border-radius: 4px;
+}
+
+.course-lessons::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.lessons-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.lessons-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.lesson-item {
+  padding: 0.75rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.lesson-item:hover {
+  background-color: var(--bg-hover);
+}
+
+.lesson-item.active {
+  background-color: var(--primary-color-light);
+}
+
+.lesson-item.completed {
+  border-left: 3px solid var(--success-color);
+}
+
+.lesson-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.lesson-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.lesson-number {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: var(--primary-color-light);
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.lesson-status-icon {
+  width: 24px;
+  height: 24px;
+  color: var(--success-color);
+}
+
+.lesson-title-text {
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+.lesson-duration {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-left: 1.75rem;
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+  .course-player-container {
+    flex-direction: column;
+  }
+  
+  .course-lessons {
+    width: 100%;
+    border-left: none;
+    border-top: 1px solid var(--border-color);
+    max-height: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .course-title {
+    font-size: 1.5rem;
+  }
+  
+  .volume-control {
+    display: none;
+  }
+}
+
+/* Course Player Page Styles */
+.course-player-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+.course-player-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.course-loading,
+.course-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+  background-color: var(--bg-secondary);
+  border-radius: 12px;
+  box-shadow: var(--shadow-small);
+  margin: 2rem auto;
+  max-width: 600px;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(61, 90, 241, 0.2);
+  border-radius: 50%;
+  border-top-color: var(--primary-color);
+  animation: spin 1s linear infinite;
+  margin-bottom: 1.5rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.course-error h2 {
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.course-error p {
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+} 

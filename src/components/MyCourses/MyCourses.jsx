@@ -1,14 +1,15 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import CourseCard from '../CourseCard/CourseCard';
 import LearningPath from '../LearningPath/LearningPath';
 import './MyCourses.css';
 
 const MyCourses = () => {
   const [activeTab, setActiveTab] = useState('in-progress');
+  const navigate = useNavigate();
 
   // Mock data for enrolled courses (in a real app, this would come from the blockchain)
-  const [enrolledCourses, setEnrolledCourses] = useState([
+  const [enrolledCourses] = useState([
     {
       id: 1,
       title: "Blockchain Fundamentals",
@@ -21,7 +22,8 @@ const MyCourses = () => {
       lastAccessed: "2023-04-02T15:30:00",
       duration: "4h 30m",
       lessons: 12,
-      level: "Beginner"
+      level: "Beginner",
+      videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
     },
     {
       id: 3,
@@ -35,7 +37,8 @@ const MyCourses = () => {
       lastAccessed: "2023-04-04T09:15:00",
       duration: "5h 45m",
       lessons: 15,
-      level: "Intermediate"
+      level: "Intermediate",
+      videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
     },
     {
       id: 5,
@@ -49,7 +52,8 @@ const MyCourses = () => {
       lastAccessed: "2023-03-28T14:20:00",
       duration: "6h 30m",
       lessons: 16,
-      level: "Intermediate"
+      level: "Intermediate",
+      videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
     }
   ]);
 
@@ -58,6 +62,11 @@ const MyCourses = () => {
     if (activeTab === 'all') return true;
     return course.status === activeTab;
   });
+
+  // Handle clicking on a course to view it
+  const handleCourseClick = (course) => {
+    navigate(`/course-player/${course.id}`);
+  };
 
   return (
     <div className="my-courses-container">
@@ -92,20 +101,21 @@ const MyCourses = () => {
       {filteredCourses.length > 0 ? (
         <div className="enrolled-courses-grid">
           {filteredCourses.map(course => (
-            <CourseCard
-              key={course.id}
-              id={course.id}
-              title={course.title}
-              description={course.description}
-              price={course.price}
-              image={course.image}
-              duration={course.duration}
-              lessons={course.lessons}
-              level={course.level}
-              enrolled={course.enrolled}
-              progress={course.progress}
-              onEnroll={() => {}} // No enroll button needed for already enrolled courses
-            />
+            <div key={course.id} onClick={() => handleCourseClick(course)} className="course-card-wrapper">
+              <CourseCard
+                id={course.id}
+                title={course.title}
+                description={course.description}
+                price={course.price}
+                image={course.image}
+                duration={course.duration}
+                lessons={course.lessons}
+                level={course.level}
+                enrolled={course.enrolled}
+                progress={course.progress}
+                onEnroll={() => {}} // No enroll button needed for already enrolled courses
+              />
+            </div>
           ))}
         </div>
       ) : (

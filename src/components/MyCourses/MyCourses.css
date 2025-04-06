@@ -1,6 +1,8 @@
 .my-courses-container {
-  background-color: var(--bg-secondary);
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 1.5rem;
+  background-color: var(--bg-secondary);
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   border: 1px solid var(--border-color);
@@ -8,97 +10,153 @@
 
 .my-courses-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
+  justify-content: space-between;
+  margin-bottom: 2rem;
 }
 
 .my-courses-title {
-  margin-bottom: 0;
-  color: var(--text-primary);
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: 600;
+  color: var(--text-primary);
+}
+
+.courses-tab {
+  display: flex;
+  background-color: var(--bg-secondary);
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  overflow: hidden;
+  max-width: fit-content;
+}
+
+.tab-item {
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--text-secondary);
+}
+
+.tab-item:hover {
+  color: var(--primary-color);
+}
+
+.tab-item.active {
+  background-color: var(--primary-color);
+  color: white;
 }
 
 .enrolled-courses-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
-}
-
-.courses-tab {
-  display: flex;
-  margin-bottom: 1.5rem;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.tab-item {
-  padding: 0.75rem 1.5rem;
-  cursor: pointer;
-  color: var(--text-secondary);
-  font-weight: 500;
-  position: relative;
-  transition: all 0.2s;
-}
-
-.tab-item:hover {
-  color: var(--text-primary);
-}
-
-.tab-item.active {
-  color: var(--accent-primary);
-}
-
-.tab-item.active::after {
-  content: '';
-  position: absolute;
-  bottom: -1px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background-color: var(--accent-primary);
+  gap: 2rem;
 }
 
 .no-courses-container {
   text-align: center;
-  padding: 3rem 0;
-  background-color: var(--bg-tertiary);
+  padding: 4rem 0;
+  background-color: var(--bg-secondary);
   border-radius: 8px;
-  border: 1px dashed var(--border-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.empty-state-icon {
+  width: 100px;
+  height: 100px;
+  color: var(--primary-color-light);
+  margin-bottom: 1rem;
 }
 
 .no-courses-message {
+  font-size: 1.5rem;
+  font-weight: 500;
   color: var(--text-primary);
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
 }
 
 .no-courses-suggestion {
   color: var(--text-secondary);
-  font-size: 0.9rem;
   margin-bottom: 1rem;
 }
 
 .explore-courses-btn {
-  background-color: var(--accent-primary);
-  color: var(--text-primary);
+  background-color: var(--primary-color);
+  color: white;
+  padding: 0.75rem 1.5rem;
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
-  font-size: 0.9rem;
+  border-radius: 8px;
+  font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s;
-  margin-top: 1rem;
+  transition: all 0.2s ease;
 }
 
 .explore-courses-btn:hover {
-  background-color: var(--accent-secondary);
+  background-color: var(--primary-color-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(9, 46, 196, 0.3);
 }
 
-.empty-state-icon {
-  width: 64px;
-  height: 64px;
-  margin-bottom: 1rem;
-  opacity: 0.7;
-  color: var(--text-secondary);
+/* Course Player Integration Styles */
+.course-card-wrapper {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.course-card-wrapper:hover {
+  transform: translateY(-5px);
+}
+
+.course-player-wrapper {
+  margin-top: 1rem;
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.back-button:hover {
+  background-color: var(--bg-hover);
+  color: var(--primary-color);
+}
+
+.back-button svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .my-courses-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .my-courses-title {
+    font-size: 1.75rem;
+  }
+  
+  .courses-tab {
+    width: 100%;
+    max-width: none;
+  }
+  
+  .tab-item {
+    flex: 1;
+    text-align: center;
+    padding: 0.75rem 1rem;
+  }
 } 

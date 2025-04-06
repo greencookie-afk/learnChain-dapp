@@ -11,6 +11,7 @@ import Certificates from './components/Certificates/Certificates';
 import Documentation from './components/Documentation/Documentation';
 import EducatorDashboard from './components/EducatorDashboard/EducatorDashboard';
 import CourseCreator from './components/EducatorDashboard/CourseCreator';
+import CoursePlayerPage from './components/CoursePlayer/CoursePlayerPage';
 import Login from './components/Login/Login';
 import BackgroundGrid from './components/BackgroundGrid';
 import './App.css';
@@ -119,6 +120,14 @@ function App() {
                 <ProtectedRoute
                   element={<CourseCreator />}
                   allowedRoles={['educator']}
+                />
+              } />
+
+              {/* New route for viewing a course with the course player */}
+              <Route path="/course-player/:courseId" element={
+                <ProtectedRoute
+                  element={<CoursePlayerPage />}
+                  allowedRoles={['student', 'educator']}
                 />
               } />
             </Routes>

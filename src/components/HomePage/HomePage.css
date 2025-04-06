@@ -15,10 +15,72 @@
   background-color: transparent;
   border-radius: 12px;
   overflow: visible;
+  position: relative;
+  isolation: isolate;
+}
+
+.hero-text-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(61, 90, 241, 0.03) 0%, rgba(9, 46, 196, 0.01) 70%, transparent 100%);
+  z-index: -1;
+}
+
+/* Animated blockchain background particles */
+.hero-particle {
+  position: absolute;
+  border-radius: 50%;
+  background: linear-gradient(45deg, rgba(61, 90, 241, 0.3), rgba(9, 46, 196, 0.1));
+  box-shadow: 0 0 10px rgba(61, 90, 241, 0.2), inset 0 0 5px rgba(9, 46, 196, 0.2);
+  z-index: -1;
+  opacity: 0.5;
+}
+
+@keyframes floatParticle {
+  0% {
+    transform: translateY(0) translateX(0);
+  }
+  50% {
+    transform: translateY(-15px) translateX(10px);
+  }
+  100% {
+    transform: translateY(0) translateX(0);
+  }
+}
+
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 5px rgba(61, 90, 241, 0.1);
+    opacity: 0.3;
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(61, 90, 241, 0.3);
+    opacity: 0.6;
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(61, 90, 241, 0.1);
+    opacity: 0.3;
+  }
 }
 
 .hero-text-content {
   max-width: 800px;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Button container styles */
+.hero-text-content > div {
+  display: inline-block;
+  width: fit-content;
+  height: fit-content;
 }
 
 .hero-text-title {
@@ -37,10 +99,56 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-fill-color: transparent;
-  animation: gradientFlow 8s linear infinite, glowPulse 3s ease-in-out infinite alternate;
   position: relative;
   display: inline-block;
   transform-origin: center;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+/* 3D text container effects */
+.text-3d-container {
+  cursor: pointer;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.text-3d-container::after {
+  content: '';
+  position: absolute;
+  inset: -20px -30px;
+  transform: translateZ(-30px);
+  background: radial-gradient(circle at center, rgba(61, 90, 241, 0.06) 0%, rgba(9, 46, 196, 0.03) 50%, transparent 80%);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.text-3d-container:hover::after {
+  opacity: 1;
+}
+
+/* Enhanced letter animations */
+.hero-text-title span {
+  background-image: linear-gradient(90deg, #092ec4, #3d5af1, #4b66f2, #3d5af1, #092ec4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  display: inline-block;
+  background-size: 200% auto;
+  text-shadow: 0 2px 5px rgba(9, 46, 196, 0.2);
+  filter: drop-shadow(0 2px 3px rgba(9, 46, 196, 0.15));
+  transform-style: preserve-3d;
+  transition: all 0.2s ease;
+  animation: gradientFlow 6s linear infinite;
+  backface-visibility: hidden;
+  will-change: transform;
 }
 
 @keyframes gradientFlow {
@@ -52,15 +160,10 @@
   }
 }
 
-@keyframes glowPulse {
-  0% {
-    text-shadow: 0 0 8px rgba(9, 46, 196, 0.2);
-    transform: scale(1);
-  }
-  100% {
-    text-shadow: 0 0 12px rgba(61, 90, 241, 0.4), 0 0 24px rgba(61, 90, 241, 0.2);
-    transform: scale(1.01);
-  }
+.hero-text-title span:hover {
+  text-shadow: 0 3px 8px rgba(61, 90, 241, 0.4);
+  filter: drop-shadow(0 3px 8px rgba(9, 46, 196, 0.3));
+  animation-play-state: paused;
 }
 
 .hero-text-subtitle {
@@ -80,20 +183,24 @@
   font-family: 'Open Sans', sans-serif;
   background: linear-gradient(90deg, #092ec4, #3d5af1);
   color: white;
-  padding: 1.2rem 3rem;
-  border-radius: 14px;
+  padding: 0.8rem 2rem;
+  border-radius: 10px;
   font-weight: 600;
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.75rem;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 10px 25px rgba(9, 46, 196, 0.4);
+  box-shadow: 0 10px 25px rgba(9, 46, 196, 0.3);
   position: relative;
   overflow: hidden;
   z-index: 1;
   text-transform: uppercase;
   letter-spacing: 0.03em;
+  width: auto;
+  max-width: fit-content;
+  margin: 0 auto;
 }
 
 .hero-cta::before {
@@ -187,8 +294,6 @@
   align-items: center;
   margin-bottom: 1.5rem;
 }
-
-
 
 .view-all-courses {
   color: var(--primary-color);
