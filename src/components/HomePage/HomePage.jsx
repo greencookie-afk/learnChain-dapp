@@ -18,7 +18,7 @@ const HomePage = () => {
     // Simulate fetching data from API
     const fetchData = async () => {
       setIsLoading(true);
-      
+
       // Mock featured courses data
       const mockFeaturedCourses = [
         {
@@ -55,13 +55,13 @@ const HomePage = () => {
           featured: true
         }
       ];
-      
+
       setTimeout(() => {
         setFeaturedCourses(mockFeaturedCourses);
         setIsLoading(false);
       }, 800);
     };
-    
+
     fetchData();
   }, []);
 
@@ -70,36 +70,6 @@ const HomePage = () => {
     // In a real app, this would connect to the blockchain
   };
 
-  // Learning path steps
-  const learningPathSteps = [
-    {
-      number: 1,
-      title: "Blockchain Fundamentals",
-      description: "Understand the basics of blockchain technology and cryptocurrencies",
-      completed: true,
-      date: "March 15, 2023"
-    },
-    {
-      number: 2,
-      title: "Smart Contract Development",
-      description: "Learn Solidity and develop your first smart contracts",
-      completed: true,
-      date: "April 3, 2023"
-    },
-    {
-      number: 3,
-      title: "Web3 Integration",
-      description: "Connect frontends to the blockchain using Web3 libraries",
-      completed: false
-    },
-    {
-      number: 4,
-      title: "Build a Complete DApp",
-      description: "Create a full decentralized application from scratch",
-      completed: false
-    }
-  ];
-
   return (
     <div className="home-container">
       {/* Hero Section - Centered text */}
@@ -107,7 +77,7 @@ const HomePage = () => {
         <div className="hero-text-content">
           <h1 className="hero-text-title">Blockchain Learning</h1>
           <p className="hero-text-subtitle">
-            Master blockchain development through interactive courses and hands-on projects. 
+            Master blockchain development through interactive courses and hands-on projects.
             Start your journey into Web3 and decentralized technologies today.
           </p>
           <Link to="/explore" className="hero-cta">
@@ -136,7 +106,7 @@ const HomePage = () => {
             <div className="stat-value">{stats.coursesCompleted}</div>
             <div className="stat-subtitle">Keep up the good work!</div>
           </div>
-          
+
           <div className="stat-card">
             <div className="stat-header">
               <span className="stat-title">Hours Learned</span>
@@ -148,7 +118,7 @@ const HomePage = () => {
             <div className="stat-value">{stats.hoursLearned}</div>
             <div className="stat-subtitle">Total learning time</div>
           </div>
-          
+
           <div className="stat-card">
             <div className="stat-header">
               <span className="stat-title">Certificates Earned</span>
@@ -160,7 +130,7 @@ const HomePage = () => {
             <div className="stat-value">{stats.certificatesEarned}</div>
             <div className="stat-subtitle">NFT certificates on chain</div>
           </div>
-          
+
           <div className="stat-card">
             <div className="stat-header">
               <span className="stat-title">Learning Streak</span>
@@ -175,18 +145,17 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Featured Courses Section */}
+      {/* Courses Section */}
       <section>
         <div className="section-header">
-          <h2 className="section-title">Featured Courses</h2>
-          <Link to="/explore" className="view-all">
-            View All
+          <Link to="/explore" className="view-all-courses">
+            View All Courses
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </Link>
         </div>
-        
+
         {isLoading ? (
           <p className="text-center">Loading featured courses...</p>
         ) : (
@@ -208,48 +177,8 @@ const HomePage = () => {
           </div>
         )}
       </section>
-
-      {/* Learning Path Section */}
-      <section className="learning-path-container">
-        <div className="learning-path-header">
-          <h2 className="learning-path-title">Your Learning Path</h2>
-        </div>
-        
-        <div className="learning-path-steps">
-          {learningPathSteps.map((step, index) => (
-            <div className="learning-path-step" key={index}>
-              <div className="step-timeline">
-                <div className="step-icon" style={{ 
-                  backgroundColor: step.completed ? 'var(--success-color)' : 'var(--bg-tertiary)',
-                  color: step.completed ? 'white' : 'var(--text-secondary)'
-                }}>
-                  {step.completed ? (
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M20 6L9 17l-5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  ) : step.number}
-                </div>
-                {index < learningPathSteps.length - 1 && <div className="step-line"></div>}
-              </div>
-              
-              <div className="step-content">
-                <h3 className="step-title">{step.title}</h3>
-                <p className="step-description">{step.description}</p>
-                {step.completed && (
-                  <div className="step-completed">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M20 6L9 17l-5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                    Completed on {step.date}
-                  </div>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
     </div>
   );
 };
 
-export default HomePage; 
+export default HomePage;

@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import CourseCard from '../CourseCard/CourseCard';
+import LearningPath from '../LearningPath/LearningPath';
 import './MyCourses.css';
 
 const MyCourses = () => {
   const [activeTab, setActiveTab] = useState('in-progress');
-  
+
   // Mock data for enrolled courses (in a real app, this would come from the blockchain)
   const [enrolledCourses, setEnrolledCourses] = useState([
     {
@@ -63,28 +64,31 @@ const MyCourses = () => {
       <div className="my-courses-header">
         <h2 className="my-courses-title">My Learning</h2>
       </div>
-      
+
+      {/* Learning Path Section */}
+      <LearningPath />
+
       <div className="courses-tab">
-        <div 
+        <div
           className={`tab-item ${activeTab === 'all' ? 'active' : ''}`}
           onClick={() => setActiveTab('all')}
         >
           All Courses
         </div>
-        <div 
+        <div
           className={`tab-item ${activeTab === 'in-progress' ? 'active' : ''}`}
           onClick={() => setActiveTab('in-progress')}
         >
           In Progress
         </div>
-        <div 
+        <div
           className={`tab-item ${activeTab === 'completed' ? 'active' : ''}`}
           onClick={() => setActiveTab('completed')}
         >
           Completed
         </div>
       </div>
-      
+
       {filteredCourses.length > 0 ? (
         <div className="enrolled-courses-grid">
           {filteredCourses.map(course => (
@@ -120,4 +124,4 @@ const MyCourses = () => {
   );
 };
 
-export default MyCourses; 
+export default MyCourses;

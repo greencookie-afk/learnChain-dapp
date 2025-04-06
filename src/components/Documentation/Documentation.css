@@ -1,0 +1,203 @@
+.documentation-container {
+  display: flex;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+.documentation-sidebar {
+  width: 250px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 2rem;
+  height: calc(100vh - 4rem);
+  overflow-y: auto;
+  padding-right: 1rem;
+  border-right: 1px solid var(--border-color);
+}
+
+.sidebar-title {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.sidebar-nav {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar-nav li {
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.sidebar-nav li:hover {
+  background-color: var(--bg-hover);
+  color: var(--primary-color);
+}
+
+.sidebar-nav li.active {
+  background-color: var(--primary-color-light);
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.documentation-content {
+  flex: 1;
+  max-width: 800px;
+}
+
+.doc-section {
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.doc-section:last-child {
+  border-bottom: none;
+}
+
+.doc-section h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+}
+
+.doc-section h3 {
+  font-size: 1.5rem;
+  margin: 1.5rem 0 1rem;
+  color: var(--text-primary);
+}
+
+.doc-section p {
+  margin-bottom: 1.2rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.doc-section ul, .doc-section ol {
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+.doc-section li {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.doc-section a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.doc-section a:hover {
+  text-decoration: underline;
+}
+
+.faq-item {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background-color: var(--bg-secondary);
+  border-radius: var(--border-radius);
+  border-left: 3px solid var(--primary-color);
+}
+
+.faq-item h3 {
+  margin-top: 0;
+  font-size: 1.25rem;
+}
+
+.faq-item p {
+  margin-bottom: 1rem;
+}
+
+.faq-item ul {
+  margin-bottom: 0;
+}
+
+/* Responsive styles */
+@media (max-width: 1024px) {
+  .documentation-container {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .documentation-container {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .documentation-sidebar {
+    width: 100%;
+    position: relative;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .sidebar-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .sidebar-nav li {
+    padding: 0.5rem 1rem;
+    margin-bottom: 0;
+    font-size: 0.9rem;
+  }
+
+  .doc-section h2 {
+    font-size: 1.75rem;
+  }
+
+  .doc-section h3 {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .documentation-container {
+    padding: 0.5rem;
+  }
+
+  .sidebar-title {
+    font-size: 1.25rem;
+  }
+
+  .sidebar-nav {
+    display: block;
+  }
+
+  .sidebar-nav li {
+    margin-bottom: 0.25rem;
+  }
+
+  .doc-section h2 {
+    font-size: 1.5rem;
+  }
+
+  .doc-section h3 {
+    font-size: 1.1rem;
+  }
+
+  .faq-item {
+    padding: 1rem;
+  }
+
+  .faq-item h3 {
+    font-size: 1.1rem;
+  }
+}

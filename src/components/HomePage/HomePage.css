@@ -115,28 +115,32 @@
 
 .section-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   margin-bottom: 1.5rem;
 }
 
-.section-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--text-primary);
-}
 
-.view-all {
+
+.view-all-courses {
   color: var(--primary-color);
-  font-size: 0.9rem;
+  font-size: 1rem;
+  font-weight: 600;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   transition: all 0.2s;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
 }
 
-.view-all:hover {
+.view-all-courses:hover {
   color: var(--primary-color-hover);
+  background-color: var(--bg-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-small);
 }
 
 .featured-courses {
@@ -236,4 +240,4 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-} 
+}

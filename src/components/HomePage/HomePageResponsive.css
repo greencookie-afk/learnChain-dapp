@@ -4,9 +4,32 @@
   align-items: center;
 }
 
+@media (max-width: 1200px) {
+  .hero-text-title {
+    font-size: 3.2rem;
+  }
+
+  .stats-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+}
+
 @media (max-width: 992px) {
   .hero-text-title {
     font-size: 3rem;
+  }
+
+  .hero-text-container {
+    padding: 3.5rem 1.75rem;
+  }
+
+  .learning-path-step {
+    margin-bottom: 1.25rem;
+  }
+
+  .step-content {
+    padding: 0.85rem;
   }
 }
 
@@ -14,13 +37,48 @@
   .hero-text-container {
     padding: 3rem 1.5rem;
   }
-  
+
   .hero-text-title {
     font-size: 2.5rem;
   }
-  
+
   .hero-text-subtitle {
     font-size: 1.1rem;
+  }
+
+  .stats-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .featured-courses {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+
+  .section-title {
+    font-size: 1.35rem;
+  }
+
+  .learning-path-container {
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .stats-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .stat-card {
+    padding: 1.25rem;
+  }
+
+  .stat-value {
+    font-size: 1.75rem;
+  }
+
+  .featured-courses {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -28,25 +86,60 @@
   .hero-text-container {
     padding: 2rem 1rem;
   }
-  
+
   .hero-text-title {
     font-size: 2rem;
   }
-  
+
   .hero-text-subtitle {
     font-size: 1rem;
   }
-  
+
   .hero-cta {
     width: 100%;
     justify-content: center;
   }
-  
+
   .stats-container {
     grid-template-columns: 1fr;
+    gap: 0.75rem;
   }
-  
-  .featured-courses {
-    grid-template-columns: 1fr;
+
+  .stat-card {
+    padding: 1rem;
   }
-} 
+
+  .stat-header {
+    margin-bottom: 0.75rem;
+  }
+
+  .stat-icon {
+    width: 32px;
+    height: 32px;
+    padding: 6px;
+  }
+
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .learning-path-step {
+    flex-direction: column;
+  }
+
+  .step-timeline {
+    flex-direction: row;
+    margin-right: 0;
+    margin-bottom: 1rem;
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .step-line {
+    width: calc(100% - 50px);
+    height: 2px;
+    margin: 0 0 0 8px;
+  }
+}
